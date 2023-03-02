@@ -1,0 +1,83 @@
+!! 지금 배우는 쿼리문은 개발자라면 꼭 알아야 하고, 책이나 검색 없이 할 수 있어야 하는 수준임 !!
+
+[데이터베이스 생성, 삭제, 선택, 목록조회]
+
+DB목록조회 : show databases;
+DB생성 : create database DB명;
+DB삭제 : drop database DB명;
+DB선택 : use DB명;
+--------------------------------------------
+jspdb 데이터베이스 생성
+	>create database jspdb;
+
+jspdb 선택
+	>use jspdb;
+
+[테이블 조회, 생성, 삭제, 구조확인]
+
+테이블 조회
+	>show tables;
+테이블 생성
+	>create table 테이블명(
+	필드명1(=column명) 데이터타입 제약조건(필수X),
+	필드명2(=column명) 데이터타입 제약조건(필수X),
+	필드명3(=column명) 데이터타입 제약조건(필수X),
+	필드명4(=column명) 데이터타입 제약조건(필수X)
+	
+	);
+테이블 삭제
+	>drop table 테이블명;
+테이블 구조 조회
+	>desc 테이블명;
+
+--------------------------------------------
+
+Q. 테이블명이 test인 테이블을 생성하고, 이름이 idx인 정수형데이터 필드 1개를 생성하라.
+>creat database jspdb; >> 완료
+>create table test(idx int);
+>desc test;
+
+Q. 테이블명: test2, 필드: idx - int, d_num - double
+>create table test2(
+idx int,
+d_num double
+);
+>desc test2;
+
+Q. 테이블명: test3, 필드: idx - int, name - varchar(10), tel - varchar(15)
+>create table test3(
+idx int,
+name varchar (10),
+tel varchar (15)
+);
+>desc test3;
+
+----------------------------------------------------------------------------------------
+
+>> 간단한 쿼리문 확인 후에 JSP와 연결해서 사용함 !!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
