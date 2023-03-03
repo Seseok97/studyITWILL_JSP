@@ -56,13 +56,174 @@ tel varchar (15)
 
 >> 간단한 쿼리문 확인 후에 JSP와 연결해서 사용함 !!
 
+----------------------------------------------------------------------------------------
+[데이터 입력, 조회, 삭제]
+
+*데이터 입력:  insert into 테이블명 values(값1, 값2 ...);
+		 => 필드명(컬럼명)을 생략한 경우, DB테이블의 순서대로 모든값을 입력 해야 함.
+		 => 모든 필드에 값이 입력됨.
+
+		  <!>
+		  > 원하는 필드에만 값을 입력하고 싶을 때.
+		  insert into 테이블명 필드명1,필드명2... values(값1, 값2 ...);
+
+*데이터 조회: select 필드명 from 테이블명;
+		 => 원하는 필드명의 데이터 조회
+		 select * from 테이블명; 
+	  	 => 테이블 전체의 데이터 조회
+
+		! 일반적인 회사의 데이터는 1억 rows 이상이기때문에, where조건문이 필수적으로 붙는다 !!
+
+*데이터 삭제: delete from 테이블명;
+		! 테이블을 휙 날려버린다 !!!!! where조건문 거의 필수 !!
+
+----------------------------------------------------------------------------------------
+Q. test 테이블에 데이터 1,2,3 입력
+>insert into test (idx) values (1);
+>insert into test (idx) values (2);
+>insert into test (idx) values (3);
+
+/result check
+>select * from test;
+
+Q.test 테이블의 데이터 모두를 삭제
+>delete from test;
 
 
+>select * from test;
 
+Q.test 테이블을 삭제
+>drop table test;
 
+/result check
+>show tables;
 
+Q.test3 테이블에 데이터 추가
+1, 'Lee', '010-1234-1234'
+2, 'Kim', '010-5436-4564'
+3. 'Jung'
+4. 	    '010-4321-4321'
 
+>insert into test3 (idx,name,tel) values(1,'Lee','010-1234-1234');
+>insert into test3 (idx,name,tel) values(2,'Kim','010-5436-4564');
+>insert into test3 (idx,name) values(3,'Lee');
+>insert into test3 (idx,tel) values(4,'010-1234-1234');
 
+* 컬럼명의 순서는 중요하지 않다.
+
+입력을 잘못해서, 이렇게 넣으면 수정이 가능할거라고 생각하고 입력하였으나
+>insert into test3 (idx,name) values(3,'Jung');
+그냥 idx = 3, name = 'Jung'인 데이터가 하나 더 생겼다 ... 수정하는방법 가르쳐 주시려나
+
+Q. test4 테이블 생성
+	필드: idx(숫자)	-Primary Key(PK 제약조건)
+		name(문자 10)
+	
+>create table test4(
+	idx int primary key,
+	name varchar(10)
+);
+
+>insert into test4 values(1,'Kim');
+
+>insert into test4 values(1,'Yang');	// UNIQUE 제약, PK데이터는 중복될 수 없다.
+>insert into test4 (name) values('Yang'); // NOT NULL 제약, PK데이터는 NULL이 되어서는 안된다.
+
+=> 데이터를 구분 가능케하는 고유한 값. > 실생활에서는 주민번호, ID 등에 PK를 걸어두게 된다.
+
+primaty key는 별로 신경쓰지 않는 개발자도 있지만, DB관리자 입장에서는 중요하다 !!! 실무에 들어가면 알아둬야할 개념중 하나.
+
+>insert into test4 values(2,'Yang');
+
+Q. test5 테이블 생성
+	필드: idx(숫자)PK + AUTO_INCREMENT(AI => 자동증가),
+		date(DATE),
+		datetime(DATETIME),
+		timestamp(TIMESTAMP)
+
+>create table test5(
+	idx INT primary key auto_increment,
+	date DATE,
+	datetime DATETIME,
+	timestamp TIMESTAMP
+);
+>insert into test5 value();
+>insert into test5 value(null,'2023-03-03','2023-03-03','2023-03-03');
+>insert into test5 value(null,'2023-03-03 10:38:00','2023-03-03 10:38:00','2023-03-03 10:38:00');
+
+----------------------------------------------------------------------------------------
+
+*itwill_member 테이블 생성
+번호: idx > int / PK,AI
+이름: name > varchar(20)
+성별: gender > varchar(5)
+나이: age > int
+주민번호: jumin > varchar(14)
+----------------------------------------------------------------------------------------
+>1, 'hong','M',16,'900101-1234123'
+>2, 'Lee','W',17,'900202-1234123'
+>3, 'KIM','M',20,'900303-1234123'
+>4, 'jung','W',25
+>5, 'song','M',19,'900505-1234123'
+----------------------------------------------------------------------------------------
+create table itwill_member(
+	idx INT primary key auto_increment,
+	name varchar(20),
+	gender varchar(5),
+	age INT,
+	jumin varchar(14)
+);
+
+insert into itwill_member (idx,name,gender,age,jumin) value(null,'hong','M',16,'900101-1234123');
+
+insert into itwill_member (idx,name,gender,age,jumin) value(null,'Lee','W',17,'900202-1234123');
+insert into itwill_member (idx,name,gender,age,jumin) value(null,'KIM','M',20,'900303-1234123');
+insert into itwill_member (idx,name,gender,age) value(null,'jung','W',25);
+insert into itwill_member (idx,name,gender,age,jumin) value(null,'song','M',19,'900505-1234123');
+----------------------------------------------------------------------------------------
+[where 조건절]
+
+Q. idx 필드 값이 3이상인 데이터만 조회.
+mysql> select *
+    -> from itwill_member
+    -> where idx >= 3;
+
+Q. 회원의 이름이 Lee인 사람의 정보만 조회.
+mysql> select *
+    -> from itwill_member
+    -> where name = 'Lee';
+
+Q. 회원 정보중 성별이 여자이면서 나이가 20세 이상인 사람의 정보 조회
+mysql> select *
+    -> from itwill_member
+    -> where gender = 'W' AND age >= 20;
+
+Q. 회원 정보중 성별이 남자이거나 나이가 20세 미만인 사람의 정보 조회
+mysql> select *
+    -> from itwill_member
+    -> where gender = 'M' OR age < 20;
+
+Q. 모든 회원의 정보중 이름과 주민번호만 출력
+mysql> select name,jumin from itwill_member;
+
+Q. 모든 회원의 정보중 이름과 주민번호만 출력하되, name은 '이름', jumin은'주민번호' 로 변경하여 출력
+mysql> select name "이름", jumin "주민번호" from itwill_member;
+----------------------------------------------------------------------------------------
+[데이터 수정]
+
+데이터 수정: update 테이블명 set 필드명1, 필드명2... = 값1, 값2 ...;
+where 조건문 많이 사용한다 !!! 
+----------------------------------------------------------------------------------------
+Q. 이름이 jung이면서 인덱스가 4번인 사람의 주민번호(900404-1234123)를 입력하라. 
+mysql> update itwill_member set jumin = '900404-1234123'
+    -> where name = 'jung' AND idx = 4;
+
+ update itwill_member set jumin = '900404-1234123' 
+	>> 얘만 넣으면 다른 jumin 필드도 전부 '900404-1234123'로 바뀐다 !!!!! 망함 !!
+ where name = 'jung' AND idx = 4; 
+	>> update는 where절 필수 !
+
+----------------------------------------------------------------------------------------
 
 
 
