@@ -1,3 +1,4 @@
+<%@page import="java.sql.Connection"%>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -23,9 +24,13 @@
 	System.out.println("드라이버 로드 성공!");
 	
 	// 2 - 드라이버를 사용하여 DB 연결
+	Connection con =
 	DriverManager.getConnection("jdbc:mysql://localhost:3306/jspdb","root","1234");
 	
 	System.out.println("DB연결 성공!");
+	
+	System.out.println(con);
+	
 	
 	%>
 	
