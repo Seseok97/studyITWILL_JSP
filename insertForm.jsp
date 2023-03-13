@@ -5,22 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<script type="text/javascript">
+		function checkData(){
+			//ID check
+			if(document.fr.id.value == ""){
+				alert("아이디를 입력하세요.");
+				document.fr.id.focus();
+				return false;
+			}
+			
+		}
+	
+	</script>
 </head>
 <body>
-	<h1>insertForm.jsp(JavaBean)</h1>
-
+	<h1>insertForm.jsp</h1>
+	<!-- itwill_member 테이블에 저장될 정보를 입력 -->
 	<fieldset>
-		<form action="javaBeanPro2.jsp" method="post">
-			아이디:<input type="text" name="id"><br>
-			비밀번호:<input type="password" name="pw"><br>
-			이메일:<input type="text" name="email"><br>
+	<legend>Itwill Sign in</legend>
+		<form action="insertPro.jsp" method="post" name="fr" onsubmit="return checkData();">
+		<!-- action 주소가 없는경우, 자신의 페이지를 호출한다. -->
+			ID: <input type="text" name="id"><br>
+			PW: <input type="password" name="pw"><br>
+			Name: <input type="text" name="name"><br>
+			Age: <input type="text" name="age"><br>
+			E-mail: <input type="text" name="email"><br>
+			Gender: 
+				Male<input type="radio" name="gender" value="남">
+				Female<input type="radio" name="gender" value="여"><br>
 			
-			<input type="submit" value="전송하기">
+			
+		<input type="submit" value="send">
 		</form>
 	</fieldset>
-	
-	
-	
-	
+
 </body>
 </html>

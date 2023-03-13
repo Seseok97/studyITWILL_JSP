@@ -1,36 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ include file="color.jspf" %>
-    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<%
-// 	String myColor="green";
-%>
-<body bgcolor=<%=col1%>>
+<body>
 	<h1>main.jsp</h1>
-	<h2>Template</h2>
-	<table border="1" width="600" height="600">
-	<tr>
-		<td colspan="2" height="100">top - header: 로고이미지, 메뉴, 검색창 ...
-		<jsp:include page="top.jsp"/></td>
+	
+	<script type="text/javascript">
+// 		function lg(){
+// 			location.href = 'loginOut.jsp';
+<%-- 			<% --%>
+			
+// 			//세션 초기화
+// 			session.removeAttribute("id");
+// 			session...						// 페이지이동으로 하는게 편하다고 ..
+<%-- 			%> --%>
+			
+// 		}
+	
+	</script>
+	
+	
+	<%
+	String id = (String)session.getAttribute("id");
+	if(id == null){										// .equals() 사용 안되던데 ,, 왜 ???
+		response.sendRedirect("loginForm.jsp");
+	}
+	%>
+	로그인 아이디 : <%=session.getAttribute("id") %>
+	
+	<br>
+<!-- 로그아웃    -->
+	<input type="button" value="Log Out" onclick="location.href='logOut.jsp'">
+	
+	<hr>
+	
+	<h3><a href="memberInfo.jsp"> 회원정보 조회</a></h3>
+	<h3><a href="memberUpdate.jsp"> 회원정보 수정</a></h3>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-	</tr>
-	<tr>
-		<td width="150">Left - subMenu: 보조메뉴, 검색결과 참고 ...
-		<jsp:include page="left.jsp"/></td>
-		<td>Main(right): 본문</td>
-	</tr>
-	<tr>
-		<td colspan="2" height="100">Bottom - footer: 회사 정보 ... 
-		<jsp:include page="bottom.jsp"/></td>
-	</tr>
-		
-	</table>
 </body>
 </html>
