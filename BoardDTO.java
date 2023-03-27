@@ -24,7 +24,7 @@ public class BoardDTO {
 	private String file;
 	
 	//getter/setter
-	// alt shift s > o
+	// alt shift s > r
 	public int getBno() {
 		return bno;
 	}
