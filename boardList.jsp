@@ -16,13 +16,37 @@
 	<%
 		//writePro => boardList!! 전달받은 정보는 없다.
 		
-		//게시판 정보(DB) 출력
+	//게시판 정보(DB) 출력
 		
 		// BoardDAO 생성
 		BoardDAO dao = new BoardDAO();
-		// DB에서 게시판글 정보를 전부 가져오기
-		ArrayList boardList = 
-				dao.getBoardListAll();
+		
+	//페이징 처리
+		// 	전체 글의 개수
+		int count = dao.getBoardCount();
+		
+		// 	한 페이지에 출력할 글의 개수
+		int pageSize = 10;
+		
+		// 현재 페이지 정보 (몇 페이지에 머물러있는지 체크)
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null){
+			pageNum = "1"; // 기본페이지는 1페이지로 고정하겠다.
+		}
+		
+		// 시작행 번호 계산// 1 > 11 > 21 > 31 ...
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize + 1;
+		// 끝행 번호 계산 // 10 > 20 > 30 > 40 ...
+		int endRow = currentPage * pageSize;
+		
+		
+		//DB에서 게시판글 정보를 전부 가져오기
+// 		ArrayList boardList = dao.getBoardListAll();
+
+		// DB에서 게시판글 일부만 가져오기(페이징 처리).
+		ArrayList boardList = dao.getBoardList(startRow,pageSize);
+	
 	%>
 <%-- 	<%=boardList %> --%>
 	
@@ -50,6 +74,28 @@
 		</tr>
 		<%} %>
 	</table>
+	<script type="text/javascript">
+		function pageUp(){
+			if(<%=Integer.parseInt(pageNum)%> <= <%=count/pageSize +1%>){
+			location.href =
+				'<%=request.getRequestURL().toString() %>?pageNum=<%=Integer.parseInt(pageNum)+1%>'
+			}
+		}
+		function pageDown(){
+			if(<%=Integer.parseInt(pageNum)-1%> > 0){
+			location.href =
+				'<%=request.getRequestURL().toString() %>?pageNum=<%=Integer.parseInt(pageNum)-1%>'
+			}
+		}
+	</script>
+	<input type="button" 
+	value="LastPage" 
+	onclick="return pageDown()">
+	<input type="button" 
+	value="NextPage" 
+	onclick="return pageUp()">
+
+
 
 </body>
 </html>
