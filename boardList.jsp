@@ -21,12 +21,12 @@
 		// BoardDAO 생성
 		BoardDAO dao = new BoardDAO();
 		
-	//페이징 처리
+	//페이징 처리 1
 		// 	전체 글의 개수
 		int count = dao.getBoardCount();
 		
 		// 	한 페이지에 출력할 글의 개수
-		int pageSize = 10;
+		int pageSize = 3;
 		
 		// 현재 페이지 정보 (몇 페이지에 머물러있는지 체크)
 		String pageNum = request.getParameter("pageNum");
@@ -66,34 +66,62 @@
 		%>
 		<tr>
 			<td><%=dto.getBno() %></td>
-			<td><%=dto.getSubject() %></td>
+			<td>
+				<a href="boardContent.jsp?bno=<%=dto.getBno()%>&pageNum=<%=pageNum %>"><%=dto.getSubject() %></a></td>
 			<td><%=dto.getName() %></td>
 			<td><%=dto.getDate() %></td>
 			<td><%=dto.getReadcount() %></td>
 			<td><%=dto.getIp() %></td>
 		</tr>
 		<%} %>
+		<hr>
+		<%
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// 페이징처리 2
+		if(count != 0){
+			// 전체 페이지 수 계산
+			
+			// 전체: 50개, 페이지당 10개씩 출력 >> 5페이지
+			// 전체: 56개, 페이지당 10개씩 출력 >> 6페이지
+			
+			int pageCount = count/pageSize + (count%pageSize==0? 0:1);
+			
+			// 한 화면에 보여줄 페이지 번호의 개수
+			int pageBlock = 6;
+			
+			// 시작페이지 번호 1~10 > 1 // 11~20 > 11 ...
+			int startPage = (((currentPage -1)/pageBlock)*pageBlock)+1;
+			// 끝페이지 번호 1~10 > 10, 11~20 > 20 ...
+			int endPage = startPage+pageBlock-1;
+			if(endPage>pageCount){
+				endPage = pageCount;
+			}
+		
+		//[이전]
+			if(startPage > pageBlock){
+				%>
+					<a href="boardList.jsp?pageNum=<%=startPage-pageBlock %>">[Last]</a>
+				<%
+			} // if end
+		
+		//1,2,3,...10
+			for(int i=startPage;i<=endPage;i++){
+				%>
+					<a href="boardList.jsp?pageNum=<%=i %>">[<%=i %>]</a>
+				<%
+			}// for end
+		
+		//[다음]
+			if(endPage < pageCount){
+				%>
+					<a href="boardList.jsp?pageNum=<%=endPage+1 %>">[Next]</a>
+				<%
+			}// if end
+		} // paging if end
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		%>
 	</table>
-	<script type="text/javascript">
-		function pageUp(){
-			if(<%=Integer.parseInt(pageNum)%> <= <%=count/pageSize +1%>){
-			location.href =
-				'<%=request.getRequestURL().toString() %>?pageNum=<%=Integer.parseInt(pageNum)+1%>'
-			}
-		}
-		function pageDown(){
-			if(<%=Integer.parseInt(pageNum)-1%> > 0){
-			location.href =
-				'<%=request.getRequestURL().toString() %>?pageNum=<%=Integer.parseInt(pageNum)-1%>'
-			}
-		}
-	</script>
-	<input type="button" 
-	value="LastPage" 
-	onclick="return pageDown()">
-	<input type="button" 
-	value="NextPage" 
-	onclick="return pageUp()">
 
 
 
