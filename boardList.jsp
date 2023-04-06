@@ -12,6 +12,7 @@
 <body>
 	<h1>boardList.jsp</h1>
 	<h2><a href="writeForm.jsp">글쓰기</a></h2>
+	<h2><a href="fWriteForm.jsp">파일 글쓰기</a></h2>
 	
 	<%
 		//writePro => boardList!! 전달받은 정보는 없다.
@@ -26,7 +27,7 @@
 		int count = dao.getBoardCount();
 		
 		// 	한 페이지에 출력할 글의 개수
-		int pageSize = 3;
+		int pageSize = 10;
 		
 		// 현재 페이지 정보 (몇 페이지에 머물러있는지 체크)
 		String pageNum = request.getParameter("pageNum");
@@ -67,7 +68,14 @@
 		<tr>
 			<td><%=dto.getBno() %></td>
 			<td>
-				<a href="boardContent.jsp?bno=<%=dto.getBno()%>&pageNum=<%=pageNum %>"><%=dto.getSubject() %></a></td>
+				<%if(dto.getRe_lev() > 0){ %>
+					<img src="level.gif" width="<%=dto.getRe_lev() > 1? 10*dto.getRe_lev():0 %>">
+					<img src="re.gif">
+				<%} %>
+				<a href="boardContent.jsp?bno=<%=dto.getBno()%>&pageNum=<%=pageNum %>"><%=dto.getSubject() %></a>
+				<%if(dto.getFile() != null) {%>
+			<img src="save.png" width="13" height="13">
+			<% } %></td>
 			<td><%=dto.getName() %></td>
 			<td><%=dto.getDate() %></td>
 			<td><%=dto.getReadcount() %></td>
