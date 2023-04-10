@@ -65,12 +65,12 @@ HOBBY:  <%if(hobbys != null){
 		
 HOBBY(EL): ${paramValues.hobbys[0] }, ${paramValues.hobbys[1] }, ${paramValues.hobbys[2] }
 
-		<h2>EL 표현식은 JSP 반복문을 통한 표현이 불가능하다.</h2>
+<h2>EL 표현식은 JSP 반복문을 통한 표현이 불가능하다.</h2>
 		 <%if(hobbys != null){
 			for(int i=0;i<hobbys.length;i++){%>
 			<br>취미<%=(i+1) %>: ${paramValues.hobbys[i] }
 		<%}}%><br>
-		<h2>>> JSTL - foreach문 사용하여 반복할것임!</h2>
+<h2> >> JSTL - foreach문 사용하여 반복할것임!</h2>
 
 
 
